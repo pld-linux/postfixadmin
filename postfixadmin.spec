@@ -1,3 +1,5 @@
+# TODO
+# - %%lang for language files
 Summary:	Web Based Management tool created for Postfix
 Name:		postfixadmin
 Version:	2.1.0
@@ -8,19 +10,21 @@ Source0:	http://high5.net/page7_files/%{name}-%{version}.tgz
 # Source0-md5:	89043e52796298f44a06d65eaddaef09
 #Source1:	%{name}.conf
 URL:		http://high5.net/postfixadmin/
-#Requires:	php(pcre)
-#Requires:	webserver(php)
-#BuildArch:	noarch
+BuildRequires:	rpmbuild(macros) >= 1.264
+Requires:	php(pcre)
+Requires:	webserver(php)
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _appdir         %{_datadir}/%{name}
-%define         _webapps        /etc/webapps
-%define         _webapp         %{name}
-%define         _sysconfdir     %{_webapps}/%{_webapp}
+%define		_appdir		%{_datadir}/%{name}
+%define		_webapps	/etc/webapps
+%define		_webapp		%{name}
+%define		_sysconfdir	%{_webapps}/%{_webapp}
 
 %description
-Postfix Admin is a Web Based Management tool created for Postfix.
-It is a PHP based application that handles Postfix Style Virtual Domains and Users that are stored in MySQL.
+Postfix Admin is a Web Based Management tool created for Postfix. It
+is a PHP based application that handles Postfix Style Virtual Domains
+and Users that are stored in MySQL.
 
 Postfix Admin supports:
 - Virtual Mailboxes / Virtual Aliases / Forwarders.
@@ -29,7 +33,6 @@ Postfix Admin supports:
 - Quota / Alias & Mailbox limits per domain.
 - Backup MX.
 - Packaged with over 25 languages... (Thank you all for sending them!)
-
 
 %prep
 %setup -q
@@ -45,9 +48,9 @@ install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
 install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
 
-# Config:
-install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.inc.php
-ln -sf %{_sysconfdir}/config.inc.php $RPM_BUILD_ROOT%{_appdir}/config.inc.php
+# config:
+install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.php
+ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/config.inc.php
 
 %clean
 rm -rf $RPM_BUILD_ROOT
