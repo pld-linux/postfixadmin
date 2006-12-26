@@ -1,6 +1,7 @@
 # TODO
 # - %%lang for language files
 Summary:	Web Based Management tool created for Postfix
+Summary(pl):	Narzêdzie WWW do zarz±dzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
 Release:	0.1
@@ -33,6 +34,19 @@ Postfix Admin supports:
 - Quota / Alias & Mailbox limits per domain.
 - Backup MX.
 - Packaged with over 25 languages... (Thank you all for sending them!)
+
+%description -l pl
+Postfix Admin to oparte na WWW narzêdzie do zarz±dzania Postfiksem.
+Jest to oparta na PHP aplikacja obs³uguj±ca wirtualne domeny i
+u¿ytkowników w stylu Postfiksa zapisane w bazie MySQL.
+
+Postfix Admin obs³uguje:
+- wirtualne skrzynki, wirtualne aliasy, przekazywanie
+- przekazywanie z domeny do domeny, przechwytywanie ("catch-all")
+- autoresponder (vacation) dla skrzynek wirtualnych
+- quoty, ograniczenia aliasów i skrzynek dla domen
+- zapasowe MX-y
+- komunikaty w ponad 25 jêzyków (podziêkowania za przys³anie ich!)
 
 %prep
 %setup -q
