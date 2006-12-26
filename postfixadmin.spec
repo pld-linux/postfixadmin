@@ -5,7 +5,7 @@ Summary(pl):	Narzêdzie WWW do zarz±dzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
 Release:	0.1
-License:	???
+License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://high5.net/page7_files/%{name}-%{version}.tgz
 # Source0-md5:	89043e52796298f44a06d65eaddaef09
