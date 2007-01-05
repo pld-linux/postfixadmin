@@ -73,10 +73,10 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%triggerin -- apache-base
+%triggerin -- apache < 2.2.0, apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache-base
+%triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
 %files
