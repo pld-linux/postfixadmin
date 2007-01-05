@@ -1,10 +1,11 @@
 # TODO
-# - %%lang for language files
+# - webapps support: apache1, apache2, lighttpd
+# - *motd.txt should marked as config and placed in /etc ?
 Summary:	Web Based Management tool created for Postfix
 Summary(pl):	Narzêdzie WWW do zarz±dzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.1
+Release:	0.2
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://high5.net/page7_files/%{name}-%{version}.tgz
@@ -80,6 +81,33 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/*.php
 %{_appdir}/admin
 %{_appdir}/images
-%{_appdir}/languages
+%dir %{_appdir}/languages
+%{_appdir}/languages/index.php
+%lang(bg) %{_appdir}/languages/bg.lang
+%lang(ca) %{_appdir}/languages/ca.lang
+%lang(cn) %{_appdir}/languages/cn.lang
+%lang(cs) %{_appdir}/languages/cs.lang
+%lang(da) %{_appdir}/languages/da.lang
+%lang(de) %{_appdir}/languages/de.lang
+%lang(en) %{_appdir}/languages/en.lang
+%lang(es) %{_appdir}/languages/es.lang
+%lang(et) %{_appdir}/languages/et.lang
+%lang(eu) %{_appdir}/languages/eu.lang
+%lang(fi) %{_appdir}/languages/fi.lang
+%lang(fo) %{_appdir}/languages/fo.lang
+%lang(fr) %{_appdir}/languages/fr.lang
+%lang(hu) %{_appdir}/languages/hu.lang
+%lang(is) %{_appdir}/languages/is.lang
+%lang(it) %{_appdir}/languages/it.lang
+%lang(mk) %{_appdir}/languages/mk.lang
+%lang(nl) %{_appdir}/languages/nl.lang
+%lang(nn) %{_appdir}/languages/nn.lang
+%lang(pl) %{_appdir}/languages/pl.lang
+%lang(pt_BR) %{_appdir}/languages/pt-br.lang
+%lang(ru) %{_appdir}/languages/ru.lang
+%lang(sl) %{_appdir}/languages/sl.lang
+%lang(sv) %{_appdir}/languages/sv.lang
+%lang(tr) %{_appdir}/languages/tr.lang
+%lang(tw) %{_appdir}/languages/tw.lang
 %{_appdir}/templates
 %{_appdir}/users
