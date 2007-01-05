@@ -1,16 +1,17 @@
 # TODO
-# - webapps support: apache1, apache2, lighttpd
+# - webapps support: apache1, lighttpd
 # - *motd.txt should marked as config and placed in /etc ?
+# - maybe split into 3 subpackages: admin, users, common?
 Summary:	Web Based Management tool created for Postfix
 Summary(pl):	Narzêdzie WWW do zarz±dzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.2
+Release:	0.3
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://high5.net/page7_files/%{name}-%{version}.tgz
 # Source0-md5:	89043e52796298f44a06d65eaddaef09
-#Source1:	%{name}.conf
+Source1:	%{name}.conf
 URL:		http://high5.net/postfixadmin/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires:	php(pcre)
@@ -67,15 +68,23 @@ install users/* $RPM_BUILD_ROOT%{_appdir}/users
 install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.php
 ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/config.inc.php
 
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%triggerin -- apache-base
+%webapp_register httpd %{_webapp}
+
+%triggerun -- apache-base
+%webapp_unregister httpd %{_webapp}
 
 %files
 %defattr(644,root,root,755)
 %doc *.TXT ADDITIONS VIRTUAL_VACATION
 %dir %attr(750,root,http) %{_sysconfdir}
 #%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
-#%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
 %dir %{_appdir}
 %{_appdir}/*.php
