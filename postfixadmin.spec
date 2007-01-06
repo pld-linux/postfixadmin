@@ -15,6 +15,7 @@ Source1:	%{name}.conf
 URL:		http://high5.net/postfixadmin/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires:	php(pcre)
+Requires:	webserver(access)
 Requires:	webserver(php)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
