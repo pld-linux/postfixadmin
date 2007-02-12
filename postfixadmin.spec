@@ -3,7 +3,7 @@
 # - *motd.txt should marked as config and placed in /etc ?
 # - maybe split into 3 subpackages: admin, users, common?
 Summary:	Web Based Management tool created for Postfix
-Summary(pl.UTF-8):   Narzędzie WWW do zarządzania Postfiksem
+Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
 Release:	0.3
