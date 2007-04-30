@@ -6,12 +6,13 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.3
+Release:	0.4
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://high5.net/page7_files/%{name}-%{version}.tgz
 # Source0-md5:	89043e52796298f44a06d65eaddaef09
 Source1:	%{name}.conf
+Patch0:		%{name}-pl.patch
 URL:		http://high5.net/postfixadmin/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires:	php(pcre)
@@ -53,6 +54,7 @@ Postfix Admin obsługuje:
 
 %prep
 %setup -q
+%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -62,6 +64,7 @@ install *.php $RPM_BUILD_ROOT%{_appdir}
 install admin/*.php $RPM_BUILD_ROOT%{_appdir}/admin
 install images/* $RPM_BUILD_ROOT%{_appdir}/images
 install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
+install stylesheet.css $RPM_BUILD_ROOT%{_appdir}
 install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
 
@@ -119,5 +122,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sv) %{_appdir}/languages/sv.lang
 %lang(tr) %{_appdir}/languages/tr.lang
 %lang(tw) %{_appdir}/languages/tw.lang
+%{_appdir}/stylesheet.css
 %{_appdir}/templates
 %{_appdir}/users
