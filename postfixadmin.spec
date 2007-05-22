@@ -57,15 +57,15 @@ Postfix Admin obsługuje:
 - komunikaty w ponad 25 języków (podziękowania za przysłanie ich!)
 
 %package vacation
-Summary:	Vacations script for postfix
-Summary(pl.UTF-8):	Skrypt wakacje dla postfixa
+Summary:	Vacations script for Postfix
+Summary(pl.UTF-8):	Skrypt wakacje dla Postfiksa
 Group:		Networking/Utilities
 
 %description vacation
-Vacations script for postfix.
+Vacations script for Postfix.
 
 %description vacation -l pl.UTF-8
-Skrypt wakacje dla postfixa.
+Skrypt wakacje dla Postfiksa.
 
 %prep
 %setup -q
