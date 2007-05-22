@@ -15,6 +15,10 @@ Source1:	%{name}.conf
 Patch0:		%{name}-pl.patch
 URL:		http://high5.net/postfixadmin/
 BuildRequires:	rpmbuild(macros) >= 1.264
+Requires(postun):	/usr/sbin/userdel
+Requires(postun):	/usr/sbin/groupdel
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/groupadd
 Requires:	php(pcre)
 Requires:	webserver(access)
 Requires:	webserver(php)
@@ -52,13 +56,24 @@ Postfix Admin obsługuje:
 - zapasowe MX-y
 - komunikaty w ponad 25 języków (podziękowania za przysłanie ich!)
 
+%package vacation
+Summary:	Vacations script for postfix
+Summary(pl.UTF-8):	Skrypt wakacje dla postfixa
+Group:		Networking/Utilities
+
+%description vacation
+Vacations script for postfix.
+
+%description vacation -l pl.UTF-8
+Skrypt wakacje dla postfixa.
+
 %prep
 %setup -q
 %patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,images,languages,templates,users}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,images,languages,templates,users},/var/spool/vacation}
 
 install *.php $RPM_BUILD_ROOT%{_appdir}
 install admin/*.php $RPM_BUILD_ROOT%{_appdir}/admin
@@ -67,6 +82,7 @@ install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
 install stylesheet.css $RPM_BUILD_ROOT%{_appdir}
 install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
+install VIRTUAL_VACATION/vacation.pl $RPM_BUILD_ROOT/var/spool/vacation
 
 # config:
 install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.php
@@ -76,6 +92,16 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%pre vacation
+%groupadd -g 219 vacation
+%useradd -u 219 -d /var/spool/vacation/ -s /bin/false -c "Vacation scripts" -g vacation vacation
+
+%postun vacation
+if [ "$1" = "0" ]; then
+	%userremove vacation
+	%groupremove vacation
+fi
 
 %triggerin -- apache < 2.2.0, apache-base
 %webapp_register httpd %{_webapp}
@@ -125,3 +151,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/stylesheet.css
 %{_appdir}/templates
 %{_appdir}/users
+%files vacation
+%attr(700,vacation,vacation) %dir /var/spool/vacation
+%attr(700,vacation,vacation) /var/spool/vacation/vacation.pl
