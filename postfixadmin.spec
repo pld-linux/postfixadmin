@@ -1,12 +1,11 @@
 # TODO
 # - webapps support: apache1, lighttpd
-# - *motd.txt should marked as config and placed in /etc ?
 # - maybe split into 3 subpackages: admin, users, common?
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.5
+Release:	0.6
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
@@ -73,14 +72,14 @@ Skrypt wakacje dla Postfiksa.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,images,languages,templates,users},/var/spool/vacation}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/templates,%{_appdir}/{admin,images,languages,templates,users},/var/spool/vacation}
 
 install *.php $RPM_BUILD_ROOT%{_appdir}
 install admin/*.php $RPM_BUILD_ROOT%{_appdir}/admin
 install images/* $RPM_BUILD_ROOT%{_appdir}/images
 install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
+install templates/*.php $RPM_BUILD_ROOT%{_appdir}/templates
 install stylesheet.css $RPM_BUILD_ROOT%{_appdir}
-install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
 install VIRTUAL_VACATION/vacation.pl $RPM_BUILD_ROOT/var/spool/vacation
 
@@ -89,6 +88,18 @@ install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.php
 ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/config.inc.php
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+
+# Many things can and should be modified by user:
+for file in `ls templates/*.tpl`; do
+	install $file $RPM_BUILD_ROOT%{_sysconfdir}/templates
+	ln -s %{_sysconfdir}/$file $RPM_BUILD_ROOT%{_appdir}/templates
+done
+
+# MOTD should be empty by default?
+for motd in motd-admin.txt motd-users.txt motd.txt; do
+	:> $RPM_BUILD_ROOT%{_sysconfdir}/$motd
+	ln -s %{_sysconfdir}/$motd $RPM_BUILD_ROOT%{_appdir}
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,13 +122,17 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.TXT ADDITIONS VIRTUAL_VACATION
+%doc *.TXT ADDITIONS VIRTUAL_VACATION motd*.txt
 %dir %attr(750,root,http) %{_sysconfdir}
 #%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
+%attr(750,root,http) %dir %{_sysconfdir}/templates
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/templates/*.tpl
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/motd*
 %dir %{_appdir}
 %{_appdir}/*.php
+%{_appdir}/motd*
 %{_appdir}/admin
 %{_appdir}/images
 %dir %{_appdir}/languages
@@ -151,6 +166,8 @@ fi
 %{_appdir}/stylesheet.css
 %{_appdir}/templates
 %{_appdir}/users
+
 %files vacation
+%defattr(644,root,root,755)
 %attr(700,vacation,vacation) %dir /var/spool/vacation
 %attr(700,vacation,vacation) /var/spool/vacation/vacation.pl
