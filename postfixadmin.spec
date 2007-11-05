@@ -1,11 +1,12 @@
 # TODO
 # - webapps support: apache1, lighttpd
-# - maybe split into 3 subpackages: admin, users, common?
+# - find nice way to split it into 4 parts: user, admin, domain-admin and common
+# - package css and templates as config.
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.6
+Release:	0.7
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
@@ -19,6 +20,7 @@ Requires(postun):	/usr/sbin/groupdel
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
 Requires:	php(pcre)
+Requires:	php(session)
 Requires:	webserver(access)
 Requires:	webserver(php)
 BuildArch:	noarch
@@ -100,6 +102,9 @@ for motd in motd-admin.txt motd-users.txt motd.txt; do
 	:> $RPM_BUILD_ROOT%{_sysconfdir}/$motd
 	ln -s %{_sysconfdir}/$motd $RPM_BUILD_ROOT%{_appdir}
 done
+
+# We don't need it:
+rm -f $RPM_BUILD_ROOT%{_appdir}/setup.php
 
 %clean
 rm -rf $RPM_BUILD_ROOT
