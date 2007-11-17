@@ -6,13 +6,14 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.7
+Release:	0.8
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
 # Source0-md5:	89043e52796298f44a06d65eaddaef09
 Source1:	%{name}.conf
 Patch0:		%{name}-pl.patch
+Patch1:		%{name}-pgsql.patch
 URL:		http://postfixadmin.com/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires(postun):	/usr/sbin/userdel
@@ -71,6 +72,7 @@ Skrypt wakacje dla Postfiksa.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %install
 rm -rf $RPM_BUILD_ROOT
