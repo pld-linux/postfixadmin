@@ -140,34 +140,7 @@ fi
 %{_appdir}/motd*
 %{_appdir}/admin
 %{_appdir}/images
-%dir %{_appdir}/languages
-%{_appdir}/languages/index.php
-%lang(bg) %{_appdir}/languages/bg.lang
-%lang(ca) %{_appdir}/languages/ca.lang
-%lang(cn) %{_appdir}/languages/cn.lang
-%lang(cs) %{_appdir}/languages/cs.lang
-%lang(da) %{_appdir}/languages/da.lang
-%lang(de) %{_appdir}/languages/de.lang
-%lang(en) %{_appdir}/languages/en.lang
-%lang(es) %{_appdir}/languages/es.lang
-%lang(et) %{_appdir}/languages/et.lang
-%lang(eu) %{_appdir}/languages/eu.lang
-%lang(fi) %{_appdir}/languages/fi.lang
-%lang(fo) %{_appdir}/languages/fo.lang
-%lang(fr) %{_appdir}/languages/fr.lang
-%lang(hu) %{_appdir}/languages/hu.lang
-%lang(is) %{_appdir}/languages/is.lang
-%lang(it) %{_appdir}/languages/it.lang
-%lang(mk) %{_appdir}/languages/mk.lang
-%lang(nl) %{_appdir}/languages/nl.lang
-%lang(nn) %{_appdir}/languages/nn.lang
-%lang(pl) %{_appdir}/languages/pl.lang
-%lang(pt_BR) %{_appdir}/languages/pt-br.lang
-%lang(ru) %{_appdir}/languages/ru.lang
-%lang(sl) %{_appdir}/languages/sl.lang
-%lang(sv) %{_appdir}/languages/sv.lang
-%lang(tr) %{_appdir}/languages/tr.lang
-%lang(tw) %{_appdir}/languages/tw.lang
+%{_appdir}/languages
 %{_appdir}/stylesheet.css
 %{_appdir}/templates
 %{_appdir}/users
