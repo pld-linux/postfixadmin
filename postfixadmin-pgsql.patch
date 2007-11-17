@@ -1,0 +1,11 @@
+--- functions.inc.php	2007-11-17 15:26:45.000000000 +0100
++++ /usr/share/postfixadmin/functions.inc.php	2007-11-17 15:25:26.000000000 +0100
+@@ -858,7 +858,7 @@
+    {
+       if (function_exists ("pg_connect"))
+       {
+-         $connect_string = "host=" . $CONF['database_host'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
++         $connect_string = $CONF['database_host']?"host=" . $CONF['database_host']:"" . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
+          $link = @pg_connect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  pg_last_error () . "$DEBUG_TEXT");
+       }
+       else
