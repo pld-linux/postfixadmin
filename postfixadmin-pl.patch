@@ -37,14 +37,23 @@
  $PALANG['pAdminMenu_create_domain'] = 'Nowa domena';
  $PALANG['pAdminMenu_create_alias'] = 'Dodaj alias';
  $PALANG['pAdminMenu_create_mailbox'] = 'Dodaj konto';
+@@ -186,7 +186,7 @@
+ $PALANG['pAdminList_domain_active'] = 'Aktywne';
+ 
+ $PALANG['pAdminList_virtual_button'] = 'Id¼';
+-$PALANG['pAdminList_virtual_welcome'] = 'Overview for ';
++$PALANG['pAdminList_virtual_welcome'] = 'Przegl±d ';
+ $PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliasy';
+ $PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Konta';
+ $PALANG['pAdminList_virtual_alias_address'] = 'Od';
 @@ -276,22 +276,22 @@
  $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
  $PALANG['pUsersVacation_body'] = 'Tekst';
  $PALANG['pUsersVacation_body_text'] = <<<EOM
 -I will be away from <date> until <date>.
 -For urgent matters you can contact <contact person>.
-+Nie bêdzie mnie do <wpisz_datê>.
-+W pilnej sprawie proszê kontaktowaæ siê z <osoba kontaktowa>.
++Nie bêdzie mnie od <daty> do <daty>.
++W pilnej sprawie proszê kontaktowaæ siê z <osob± kontaktow±>.
  EOM;
  $PALANG['pUsersVacation_button_away'] = 'Nieobecny/a';
 -$PALANG['pUsersVacation_button_back'] = 'Zaraz wracam';
