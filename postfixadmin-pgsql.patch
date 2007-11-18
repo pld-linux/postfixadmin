@@ -1,6 +1,229 @@
+diff -urN admin/create-domain.php admin/create-domain.php
+--- admin/create-domain.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/create-domain.php	2007-11-17 17:05:42.000000000 +0100
+@@ -88,7 +88,7 @@
+          $fBackupmx = 0;
+       }
+       
+-      $result = db_query ("INSERT INTO domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport',$fBackupmx,NOW(),NOW())");
++      $result = db_query ("INSERT INTO domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport','$fBackupmx',NOW(),NOW())");
+       if ($result['rows'] != 1)
+       {
+          $tMessage = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)<br />";
+diff -urN admin/edit-active-admin.php admin/edit-active-admin.php
+--- admin/edit-active-admin.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-active-admin.php	2007-11-17 23:46:00.000000000 +0100
+@@ -26,7 +26,11 @@
+ {
+    if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+    
+-   $result = db_query ("UPDATE admin SET active=1-active WHERE username='$fUsername'");
++   if ($CONF['database_type'] == "pgsql") {
++	$result = db_query ("UPDATE admin SET active=NOT(active) WHERE username='$fUsername'");
++   } else {
++	$result = db_query ("UPDATE admin SET active=1-active WHERE username='$fUsername'");
++   }
+    if ($result['rows'] != 1)
+    {
+       $error = 1;
+diff -urN admin/edit-active-domain.php admin/edit-active-domain.php
+--- admin/edit-active-domain.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-active-domain.php	2007-11-17 23:59:20.000000000 +0100
+@@ -25,8 +25,12 @@
+ if ($_SERVER['REQUEST_METHOD'] == "GET")
+ {
+    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+-   
+-   $result = db_query ("UPDATE domain SET active=1-active WHERE domain='$fDomain'");
++
++   if ($CONF['database_type'] == "pgsql") {   
++	$result = db_query ("UPDATE domain SET active=NOT(active) WHERE domain='$fDomain'");
++   } else {
++	$result = db_query ("UPDATE domain SET active=1-active WHERE domain='$fDomain'");
++   }
+    if ($result['rows'] != 1)
+    {
+       $error = 1;
+diff -urN admin/edit-active.php admin/edit-active.php
+--- admin/edit-active.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-active.php	2007-11-17 23:45:27.000000000 +0100
+@@ -28,7 +28,11 @@
+    if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+    
+-   $result = db_query ("UPDATE mailbox SET active=1-active WHERE username='$fUsername' AND domain='$fDomain'");
++   if ($CONF['database_type'] == "pgsql") {
++	$result = db_query ("UPDATE mailbox SET active=NOT(active) WHERE username='$fUsername' AND domain='$fDomain'");
++   } else {
++	$result = db_query ("UPDATE mailbox SET active=1-active WHERE username='$fUsername' AND domain='$fDomain'");
++   }
+    if ($result['rows'] != 1)
+    {
+       $error = 1;
+diff -urN admin/edit-admin.php admin/edit-admin.php
+--- admin/edit-admin.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-admin.php	2007-11-17 19:04:28.000000000 +0100
+@@ -41,7 +41,7 @@
+    if ($result['rows'] == 1)
+    {
+       $row = db_array ($result['result']);
+-      $tActive = $row['active'];
++      $tActive = db_boolean($row['active']);
+    }
+ 
+    include ("../templates/header.tpl");
+@@ -75,13 +75,13 @@
+ 
+       if (empty ($fPassword) and empty ($fPassword2))
+       {
+-         if ($fActive == "on") $fActive = 1;
++         if ($fActive == "on") { $fActive = 1; } else { $fActive = 0; }
+          $result = db_query ("UPDATE admin SET modified=NOW(),active='$fActive' WHERE username='$username'");
+       }
+       else
+       {
+          $password = pacrypt ($fPassword);
+-         if ($fActive == "on") $fActive = 1;
++         if ($fActive == "on") { $fActive = 1; } else { $fActive = 0; }
+          $result = db_query ("UPDATE admin SET password='$password',modified=NOW(),active='$fActive' WHERE username='$username'");
+       }
+ 
+diff -urN admin/edit-domain.php admin/edit-domain.php
+--- admin/edit-domain.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-domain.php	2007-11-17 18:18:11.000000000 +0100
+@@ -73,8 +73,10 @@
+       $fBackupmx = 0;
+    }
+ 
+-   if ($fActive == "on") { $fActive = 1; }
++   if ($fActive == "on") { $fActive = 1; } else { $fActive = 0; }
+    
++	if(!$fMaxquota) { $fMaxquota=0; }
++	if(!$fTransport) { $fTransport='virtual'; }
+ 	$result = db_query ("UPDATE domain SET description='$fDescription',aliases='$fAliases',mailboxes='$fMailboxes',maxquota='$fMaxquota',transport='$fTransport',backupmx='$fBackupmx',active='$fActive',modified=NOW() WHERE domain='$domain'");
+ 	if ($result['rows'] == 1)
+ 	{
+diff -urN admin/edit-mailbox.php admin/edit-mailbox.php
+--- admin/edit-mailbox.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/edit-mailbox.php	2007-11-17 19:04:47.000000000 +0100
+@@ -41,7 +41,7 @@
+       $row = db_array ($result['result']);
+       $tName = $row['name'];
+       $tQuota = $row['quota'] / $CONF['quota_multiplier'];
+-      $tActive = $row['active'];
++      $tActive = db_boolean($row['active']);
+    }
+    else
+    {
+diff -urN admin/list-virtual.php admin/list-virtual.php
+--- admin/list-virtual.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/list-virtual.php	2007-11-17 19:10:23.000000000 +0100
+@@ -66,6 +66,7 @@
+    {
+       while ($row = db_array ($result['result']))
+       {
++	$row['active']=db_boolean($row['active']);
+          $tMailbox[] = $row;
+       }
+    }
+@@ -127,6 +128,7 @@
+    {
+       while ($row = db_array ($result['result']))
+       {
++	$row['active']=db_boolean($row['active']);
+          $tMailbox[] = $row;
+       }
+    }
+diff -urN admin/search.php admin/search.php
+--- admin/search.php	2005-01-07 00:00:00.000000000 +0100
++++ admin/search.php	2007-11-17 19:09:56.000000000 +0100
+@@ -54,6 +54,7 @@
+    {
+       while ($row = db_array ($result['result']))
+       {
++	$row['active']=db_boolean($row['active']);
+          $tMailbox[] = $row;
+       }
+    }
+@@ -92,6 +93,7 @@
+    {
+       while ($row = db_array ($result['result']))
+       {
++	$row['active']=db_boolean($row['active']);
+          $tMailbox[] = $row;
+       }
+    }
+diff -urN edit-active.php edit-active.php
+--- edit-active.php	2005-01-07 00:00:00.000000000 +0100
++++ edit-active.php	2007-11-17 23:50:30.000000000 +0100
+@@ -37,7 +37,11 @@
+    }
+    else
+    {
+-      $result = db_query ("UPDATE mailbox SET active=1-active WHERE username='$fUsername' AND domain='$fDomain'");
++      if ($CONF['database_type'] == "pgsql") {
++	$result = db_query ("UPDATE mailbox SET active=NOT(active) WHERE username='$fUsername' AND domain='$fDomain'");
++      } else {
++	$result = db_query ("UPDATE mailbox SET active=1-active WHERE username='$fUsername' AND domain='$fDomain'");
++      }
+       if ($result['rows'] != 1)
+       {
+          $error = 1;
+diff -urN edit-mailbox.php edit-mailbox.php
+--- edit-mailbox.php	2005-01-07 00:00:00.000000000 +0100
++++ edit-mailbox.php	2007-11-17 19:04:07.000000000 +0100
+@@ -45,7 +45,7 @@
+          $row = db_array ($result['result']);
+          $tName = $row['name'];
+          $tQuota = $row['quota'] / $CONF['quota_multiplier'];
+-         $tActive = $row['active'];
++         $tActive = db_boolean($row['active']);
+       }
+    }
+    else
+diff -urN functions.inc.php functions.inc.php
 --- functions.inc.php	2007-11-17 15:26:45.000000000 +0100
-+++ /usr/share/postfixadmin/functions.inc.php	2007-11-17 15:25:26.000000000 +0100
-@@ -858,7 +858,7 @@
++++ functions.inc.php	2007-11-17 19:28:48.000000000 +0100
+@@ -174,36 +174,10 @@
+    $list['mailboxes'] = $row['mailboxes'];
+    $list['maxquota'] = $row['maxquota'];
+    $list['transport'] = $row['transport'];
+-   $list['backupmx'] = $row['backupmx'];
++   $list['backupmx'] = db_boolean($row['backupmx']);
+    $list['created'] = $row['created'];
+    $list['modified'] = $row['modified'];
+-   $list['active'] = $row['active'];
+-
+-   if ($CONF['database_type'] == "pgsql")
+-   {
+-      if ($row['active'] == "t")
+-      {
+-         $list['active'] = 1;
+-      }
+-      else
+-      {
+-         $list['active'] = 0;
+-      }
+-
+-      if ($row['backupmx'] == "t")
+-      {
+-         $list['backupmx'] = 1;
+-      }
+-      else
+-      {
+-         $list['backupmx'] = 0;
+-      }
+-   }
+-   else
+-   {
+-      $list['active'] = $row['active'];
+-      $list['backupmx'] = $row['backupmx'];
+-   }
++   $list['active'] = db_boolean($row['active']);
+ 
+    return $list;
+ }
+@@ -858,7 +832,7 @@
     {
        if (function_exists ("pg_connect"))
        {
@@ -9,3 +232,114 @@
           $link = @pg_connect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  pg_last_error () . "$DEBUG_TEXT");
        }
        else
+@@ -1046,4 +1020,17 @@
+    }
+ }
+ 
++function db_boolean ($value) {
++	global $CONF;
++	if ($CONF['database_type'] == "pgsql") {
++		if ($value == 't') {
++			return 1;
++		} else {
++			return 0;
++		}
++	} else {
++		return $value;
++	}
++}
++
+ ?>
+diff -urN overview.php overview.php
+--- overview.php	2005-01-07 00:00:00.000000000 +0100
++++ overview.php	2007-11-17 19:11:34.000000000 +0100
+@@ -69,6 +69,7 @@
+       {
+          while ($row = db_array ($result['result']))
+          {
++		$row['active']=db_boolean($row['active']);
+             $tMailbox[] = $row;
+          }
+       }
+@@ -141,6 +142,7 @@
+       {
+          while ($row = db_array ($result['result']))
+          {
++		$row['active']=db_boolean($row['active']);
+             $tMailbox[] = $row;
+          }
+       }
+diff -urN search.php search.php
+--- search.php	2005-01-07 00:00:00.000000000 +0100
++++ search.php	2007-11-17 19:10:58.000000000 +0100
+@@ -61,6 +61,7 @@
+       {
+          if (check_owner ($SESSID_USERNAME, $row['domain']))
+          {
++		$row['active']=db_boolean($row['active']);
+             $tMailbox[] = $row;
+          }
+       }
+@@ -105,6 +106,7 @@
+       {
+          if (check_owner ($SESSID_USERNAME, $row['domain']))
+          {
++		$row['active']=db_boolean($row['active']);
+             $tMailbox[] = $row;
+          }
+       }
+diff -urN templates/admin_create-domain.tpl templates/admin_create-domain.tpl
+--- templates/admin_create-domain.tpl	2005-01-07 00:00:00.000000000 +0100
++++ templates/admin_create-domain.tpl	2007-11-17 19:21:38.000000000 +0100
+@@ -46,7 +46,7 @@
+    </tr>
+    <tr>
+       <td><?php print $PALANG['pAdminCreate_domain_backupmx'] . ":"; ?></td>
+-      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked' : ''; ?>
++      <td><?php $checked = ($tBackupmx==1) ? 'checked' : ''; ?>
+       <input class="flat" type="checkbox" name="fBackupmx" <?php print $checked; ?> />
+       </td>
+       <td>&nbsp;</td>
+diff -urN templates/admin_edit-admin.tpl templates/admin_edit-admin.tpl
+--- templates/admin_edit-admin.tpl	2005-01-07 00:00:00.000000000 +0100
++++ templates/admin_edit-admin.tpl	2007-11-17 19:21:50.000000000 +0100
+@@ -20,7 +20,7 @@
+    </tr>
+    <tr>
+       <td><?php print $PALANG['pAdminEdit_admin_active'] . ":"; ?></td>
+-      <td><input class="flat" type="checkbox" name="fActive" <?php print (!empty ($tActive)) ? 'checked' : ''; ?> ></td>
++      <td><input class="flat" type="checkbox" name="fActive" <?php print ($tActive==1) ? 'checked' : ''; ?> ></td>
+       <td>&nbsp;</td>
+    </tr>
+    <tr>
+diff -urN templates/admin_edit-domain.tpl templates/admin_edit-domain.tpl
+--- templates/admin_edit-domain.tpl	2005-01-07 00:00:00.000000000 +0100
++++ templates/admin_edit-domain.tpl	2007-11-17 19:21:12.000000000 +0100
+@@ -39,13 +39,13 @@
+    <?php } ?>
+    <tr>
+       <td><?php print $PALANG['pAdminEdit_domain_backupmx'] . ":"; ?></td>
+-      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked' : ''; ?>
++      <td><?php $checked = ($tBackupmx==1) ? 'checked' : ''; ?>
+       <input class="flat" type="checkbox" name="fBackupmx" <?php print $checked; ?> /></td>
+       <td>&nbsp;</td>
+    </tr>
+    <tr>
+       <td><?php print $PALANG['pAdminEdit_domain_active'] . ":"; ?></td>
+-      <td><?php $checked = (!empty ($tActive)) ? 'checked' : ''; ?>
++      <td><?php $checked = ($tActive==1) ? 'checked' : ''; ?>
+       <input class="flat" type="checkbox" name="fActive" <?php print $checked; ?> /></td>
+       <td>&nbsp;</td>
+    </tr>
+diff -urN templates/edit-mailbox.tpl templates/edit-mailbox.tpl
+--- templates/edit-mailbox.tpl	2005-01-07 00:00:00.000000000 +0100
++++ templates/edit-mailbox.tpl	2007-11-17 23:29:10.000000000 +0100
+@@ -33,7 +33,7 @@
+    <?php } ?>
+    <tr>
+       <td><?php print $PALANG['pCreate_mailbox_active'] . ":"; ?></td>
+-      <td><input class="flat" type="checkbox" name="fActive" <?php print (!empty ($tActive)) ? 'checked' : '' ?> ></td>
++      <td><input class="flat" type="checkbox" name="fActive" <?php print ($tActive==1) ? 'checked' : '' ?> ></td>
+       <td>&nbsp;</td>
+    </tr>
+    <tr>
