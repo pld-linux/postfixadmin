@@ -19,6 +19,15 @@
  $PALANG['pOverview_alias_title'] = ':: Alias';
  $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
  $PALANG['pOverview_button'] = 'Id¼';
+@@ -80,7 +80,7 @@
+ $PALANG['pCreate_alias_goto_text_error'] = 'Gdzie ten email powinien dotrzeæ.<br /><span class="error_msg">The TO is not valid!</span>';
+ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nie mo¿na dodaæ aliasu do tabeli aliasów!</span>';
+ $PALANG['pCreate_alias_result_succes'] = 'Alias zosta³ dodany do tabeli aliasów!';
+-$PALANG['pCreate_alias_catchall_text'] = 'Aby utworzyæ domy¶lne konto dla domeny (catch-all) podaj "*" (gwiazdkê) jako alias.<br />Je¶li chcesz przekazywaæ ca³o¶æ poczty do innej domeny, wpisz jako alias "*@domena.tld".';
++$PALANG['pCreate_alias_catchall_text'] = 'Aby utworzyæ domy¶lne konto dla domeny (catch-all) podaj "*" (gwiazdkê) jako alias.<br />Je¶li chcesz przekazywaæ ca³o¶æ poczty do innej domeny, wpisz "*@domena.tld" jako Do.';
+ $PALANG['pEdit_alias_welcome'] = 'Edytuj alias dla Twojej domeny.<br />Jeden wpis na liniê.';
+ $PALANG['pEdit_alias_address'] = 'Alias';
+ $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nie mo¿na zokalizowaæ aliasu!</span>';
 @@ -158,13 +158,13 @@
  $PALANG['pSendmail_result_error'] = '<span class="error_msg">Nie mo¿na utworzyæ konta!</span>';
  $PALANG['pSendmail_result_succes'] = 'Konto zosta³o utworzone!';
