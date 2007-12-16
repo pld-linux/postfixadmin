@@ -6,7 +6,7 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	0.8
+Release:	0.9
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
@@ -129,7 +129,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.TXT ADDITIONS VIRTUAL_VACATION motd*.txt
+%doc *.TXT ADDITIONS motd*.txt
 %dir %attr(750,root,http) %{_sysconfdir}
 #%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(750,root,http) %dir %{_sysconfdir}/templates
@@ -149,5 +149,6 @@ fi
 
 %files vacation
 %defattr(644,root,root,755)
+%doc VIRTUAL_VACATION
 %attr(700,vacation,vacation) %dir /var/spool/vacation
 %attr(700,vacation,vacation) /var/spool/vacation/vacation.pl
