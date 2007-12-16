@@ -2,6 +2,7 @@
 # - webapps support: apache1, lighttpd
 # - find nice way to split it into 4 parts: user, admin, domain-admin and common
 # - package css and templates as config.
+# - put config part of vacation.pl into separate file (there is configuration part in that).
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
@@ -106,7 +107,8 @@ for motd in motd-admin.txt motd-users.txt motd.txt; do
 done
 
 # We don't need it:
-rm -f $RPM_BUILD_ROOT%{_appdir}/setup.php
+rm -f $RPM_BUILD_ROOT%{_appdir}/setup.php \
+	$RPM_BUILD_ROOT%{_appdir}/VIRTUAL_VACATION/index.php
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -151,4 +153,4 @@ fi
 %defattr(644,root,root,755)
 %doc VIRTUAL_VACATION
 %attr(700,vacation,vacation) %dir /var/spool/vacation
-%attr(700,vacation,vacation) /var/spool/vacation/vacation.pl
+%attr(700,vacation,vacation) %config(noreplace) %verify(not md5 mtime size) /var/spool/vacation/vacation.pl
