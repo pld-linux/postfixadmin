@@ -24,6 +24,7 @@ Requires(pre):	/usr/sbin/groupadd
 Requires:	php(pcre)
 Requires:	php(session)
 Requires:	webserver(access)
+Requires:	webserver(alias)
 Requires:	webserver(php)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
