@@ -296,7 +296,7 @@ diff -urN templates/admin_create-domain.tpl templates/admin_create-domain.tpl
     <tr>
        <td><?php print $PALANG['pAdminCreate_domain_backupmx'] . ":"; ?></td>
 -      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked' : ''; ?>
-+      <td><?php $checked = ($tBackupmx==1) ? 'checked' : ''; ?>
++      <td><?php $checked = ($fBackupmx==1) ? 'checked' : ''; ?>
        <input class="flat" type="checkbox" name="fBackupmx" <?php print $checked; ?> />
        </td>
        <td>&nbsp;</td>
