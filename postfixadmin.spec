@@ -16,6 +16,7 @@ Source1:	%{name}.conf
 Patch0:		%{name}-pl.patch
 Patch1:		%{name}-pgsql.patch
 Patch2:		%{name}-non_local_db.patch
+Patch3:		%{name}-pl_typo_fix.patch
 URL:		http://postfixadmin.com/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires(postun):	/usr/sbin/userdel
@@ -78,6 +79,7 @@ Skrypt wakacje dla Postfiksa.
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
+%patch3 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
