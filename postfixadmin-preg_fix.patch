@@ -1,0 +1,17 @@
+--- ./edit-alias.php.org	2005-01-07 00:00:00.000000000 +0100
++++ ./edit-alias.php	2008-04-03 10:20:08.209852910 +0200
+@@ -77,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+    }
+ 
+    $goto = preg_replace ('/\\\r\\\n/', ',', $fGoto);
+-	$goto = preg_replace ('/\r\n/', ',', $fGoto);
+-	$goto = preg_replace ('/[\s]+/i', '', $goto);
+-	$goto = preg_replace ('/\,*$/', '', $goto);
+-	$array = preg_split ('/,/', $goto);
++   $goto = preg_replace ('/\r\n/', ',', $goto);
++   $goto = preg_replace ('/[\s]+/i', '', $goto);
++   $goto = preg_replace ('/\,*$/', '', $goto);
++   $array = preg_split ('/,/', $goto);
+ 
+ 	for ($i = 0; $i < sizeof ($array); $i++) {
+ 		if (in_array ("$array[$i]", $CONF['default_aliases'])) continue;
