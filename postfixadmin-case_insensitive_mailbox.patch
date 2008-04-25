@@ -1,0 +1,59 @@
+--- ./admin/create-mailbox.php.org	2008-04-25 09:29:56.512700250 +0200
++++ ./admin/create-mailbox.php	2008-04-25 09:30:00.476223063 +0200
+@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+    {
+       $error = 1;
+       $tUsername = escape_string ($_POST['fUsername']);
++      $tUsername = strtolower ($fUsername);
+       $tName = $fName;
+       $tQuota = $fQuota;
+       $tDomain = $fDomain;
+@@ -81,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+ 	{
+       $error = 1;
+       $tUsername = escape_string ($_POST['fUsername']);
++      $tUsername = strtolower ($fUsername);
+       $tName = $fName;
+       $tQuota = $fQuota;
+       $tDomain = $fDomain;
+@@ -96,7 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+ 	   else
+ 	   {
+          $error = 1;
+-         $tUsername = escape_string ($_POST['fUsername']);
++	 $tUsername = escape_string ($_POST['fUsername']);
++	 $tUsername = strtolower ($fUsername);
+          $tName = $fName;
+          $tQuota = $fQuota;
+          $tDomain = $fDomain;
+@@ -109,7 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+       if (!check_quota ($fQuota, $fDomain))
+       {
+          $error = 1;
+-         $tUsername = escape_string ($_POST['fUsername']);
++	 $tUsername = escape_string ($_POST['fUsername']);
++	 $tUsername = strtolower ($fUsername);
+          $tName = $fName;
+          $tQuota = $fQuota;
+          $tDomain = $fDomain;
+@@ -122,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+    {
+       $error = 1;
+       $tUsername = escape_string ($_POST['fUsername']);
++      $tUsername = strtolower ($fUsername);
+       $tName = $fName;
+       $tQuota = $fQuota;
+       $tDomain = $fDomain;
+@@ -139,8 +144,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+             $maildir = $fDomain . "/" . $fUsername . "/";
+          }
+          else
+-         {
+-            $maildir = $fDomain . "/" . escape_string ($_POST['fUsername']) . "/";
++	 {
++		 $boxname = escape_string ($_POST['fUsername']);
++		 $boxname = strtolower ($boxname);
++     		 $maildir = $fDomain . "/" . $boxname . "/";
+          }
+       }
+       else
