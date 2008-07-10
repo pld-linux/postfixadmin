@@ -7,7 +7,7 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.1.0
-Release:	3
+Release:	4
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
