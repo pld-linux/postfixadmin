@@ -6,19 +6,13 @@
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
-Version:	2.1.0
-Release:	4
+Version:	2.2.0
+Release:	0.9
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
-Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tgz
-# Source0-md5:	89043e52796298f44a06d65eaddaef09
+Source0:	http://dl.sourceforge.net/postfixadmin/%{name}_%{version}.tar.gz
+# Source0-md5:	1e3271d3851dbaae54be048be7cef3bd
 Source1:	%{name}.conf
-Patch0:		%{name}-pl.patch
-Patch1:		%{name}-pgsql.patch
-Patch2:		%{name}-non_local_db.patch
-Patch3:		%{name}-pl_typo_fix.patch
-Patch4:		%{name}-preg_fix.patch
-Patch5:		%{name}-case_insensitive_mailbox.patch
 URL:		http://postfixadmin.com/
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires(postun):	/usr/sbin/userdel
@@ -78,37 +72,25 @@ Skrypt wakacje dla Postfiksa.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p0
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/templates,%{_appdir}/{admin,images,languages,templates,users},/var/spool/vacation}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,css,images,languages,templates,users},/var/spool/vacation}
 
 install *.php $RPM_BUILD_ROOT%{_appdir}
 install admin/*.php $RPM_BUILD_ROOT%{_appdir}/admin
+install css/*.css $RPM_BUILD_ROOT%{_appdir}/css
 install images/* $RPM_BUILD_ROOT%{_appdir}/images
 install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
-install templates/*.php $RPM_BUILD_ROOT%{_appdir}/templates
-install stylesheet.css $RPM_BUILD_ROOT%{_appdir}
+install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
 install VIRTUAL_VACATION/vacation.pl $RPM_BUILD_ROOT/var/spool/vacation
 
 # config:
-install config.inc.php.sample $RPM_BUILD_ROOT%{_sysconfdir}/config.php
+install config.inc.php $RPM_BUILD_ROOT%{_sysconfdir}/config.php
 ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/config.inc.php
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-
-# Many things can and should be modified by user:
-for file in `ls templates/*.tpl`; do
-	install $file $RPM_BUILD_ROOT%{_sysconfdir}/templates
-	ln -s %{_sysconfdir}/$file $RPM_BUILD_ROOT%{_appdir}/templates
-done
 
 # MOTD should be empty by default?
 for motd in motd-admin.txt motd-users.txt motd.txt; do
@@ -144,10 +126,8 @@ fi
 %doc *.TXT ADDITIONS motd*.txt
 %dir %attr(750,root,http) %{_sysconfdir}
 #%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
-%attr(750,root,http) %dir %{_sysconfdir}/templates
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/templates/*.tpl
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/motd*
 %dir %{_appdir}
 %{_appdir}/*.php
@@ -155,7 +135,7 @@ fi
 %{_appdir}/admin
 %{_appdir}/images
 %{_appdir}/languages
-%{_appdir}/stylesheet.css
+%{_appdir}/css
 %{_appdir}/templates
 %{_appdir}/users
 
