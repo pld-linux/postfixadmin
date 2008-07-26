@@ -6,12 +6,12 @@
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
-Version:	2.2.0
-Release:	0.9
+Version:	2.2.1.1
+Release:	1
 License:	freely usable and distributable with restrictions (see URL)
 Group:		Networking/Utilities
-Source0:	http://dl.sourceforge.net/postfixadmin/%{name}_%{version}.tar.gz
-# Source0-md5:	1e3271d3851dbaae54be048be7cef3bd
+Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tar.gz
+# Source0-md5:	d30f9b9ae5584308ad0cf84100f8ff24
 Source1:	%{name}.conf
 URL:		http://postfixadmin.com/
 BuildRequires:	rpmbuild(macros) >= 1.264
@@ -63,6 +63,12 @@ Postfix Admin obsługuje:
 Summary:	Vacations script for Postfix
 Summary(pl.UTF-8):	Skrypt wakacje dla Postfiksa
 Group:		Networking/Utilities
+Requires:	perl-MIME-Charset
+Requires:	perl-MIME-EncWords
+Requires:	perl-Email-Valid
+Requires:	perl-Mail-Sendmail
+Suggests:	perl-DBD-Pg
+Suggests:	perl-DBD-mysql
 
 %description vacation
 Vacations script for Postfix.
