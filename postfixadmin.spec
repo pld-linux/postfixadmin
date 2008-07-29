@@ -63,9 +63,11 @@ Postfix Admin obsługuje:
 Summary:	Vacations script for Postfix
 Summary(pl.UTF-8):	Skrypt wakacje dla Postfiksa
 Group:		Networking/Utilities
+# too bad, script is installed (and possibly configured inside) in /var/spool,
+# so perlprov won't detect it :/
+Requires:	perl-Email-Valid
 Requires:	perl-MIME-Charset
 Requires:	perl-MIME-EncWords
-Requires:	perl-Email-Valid
 Requires:	perl-Mail-Sendmail
 Suggests:	perl-DBD-Pg
 Suggests:	perl-DBD-mysql
