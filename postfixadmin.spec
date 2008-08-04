@@ -24,6 +24,7 @@ Requires:	php(session)
 Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php)
+Suggests:	php(imap)
 Suggests:	webserver(indexfile)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
