@@ -1,14 +1,15 @@
 # TODO
 # - webapps support: apache1, lighttpd
-# - find nice way to split it into 4 parts: user, admin, domain-admin and common
+# - find nice way to split it into 3 parts: user, admin and common
 # - package css and templates as config.
 # - put config part of vacation.pl into separate file (there is configuration part in that).
+# - what to do with upgrade.php?
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.2.1.1
 Release:	1
-License:	freely usable and distributable with restrictions (see URL)
+License:	GPL v2+
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tar.gz
 # Source0-md5:	d30f9b9ae5584308ad0cf84100f8ff24
