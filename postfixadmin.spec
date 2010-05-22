@@ -10,7 +10,7 @@ Name:		postfixadmin
 Version:	2.2.1.1
 Release:	1
 License:	GPL v2+
-Group:		Networking/Utilities
+Group:		Networking/Mail
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tar.gz
 # Source0-md5:	d30f9b9ae5584308ad0cf84100f8ff24
 Source1:	%{name}.conf
