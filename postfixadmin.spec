@@ -7,12 +7,12 @@
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
-Version:	2.2.1.1
+Version:	2.3.3
 Release:	1
 License:	GPL v2+
 Group:		Networking/Mail
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tar.gz
-# Source0-md5:	d30f9b9ae5584308ad0cf84100f8ff24
+# Source0-md5:	0dfcd8a4535e00aced45c82dbcedf859
 Source1:	%{name}.conf
 URL:		http://postfixadmin.com/
 BuildRequires:	rpmbuild(macros) >= 1.264
@@ -109,8 +109,7 @@ for motd in motd-admin.txt motd-users.txt motd.txt; do
 done
 
 # We don't need it:
-rm -f $RPM_BUILD_ROOT%{_appdir}/setup.php \
-	$RPM_BUILD_ROOT%{_appdir}/VIRTUAL_VACATION/index.php
+rm -f $RPM_BUILD_ROOT%{_appdir}/VIRTUAL_VACATION/index.php
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,7 +132,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.TXT ADDITIONS motd*.txt
+%doc ADDITIONS CHANGELOG.TXT INSTALL.TXT motd*.txt
 %dir %attr(750,root,http) %{_sysconfdir}
 #%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
