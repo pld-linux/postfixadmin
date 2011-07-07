@@ -4,11 +4,12 @@
 # - package css and templates as config.
 # - put config part of vacation.pl into separate file (there is configuration part in that).
 # - what to do with upgrade.php?
+# - setup.php and upgrade.php should be marked as "missingok"
 Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.3.3
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Networking/Mail
 Source0:	http://dl.sourceforge.net/postfixadmin/%{name}-%{version}.tar.gz
@@ -85,13 +86,14 @@ Skrypt wakacje dla Postfiksa.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,css,images,languages,templates,users},/var/spool/vacation}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{admin,css,images,languages,model,templates,users},/var/spool/vacation}
 
 install *.php $RPM_BUILD_ROOT%{_appdir}
 install admin/*.php $RPM_BUILD_ROOT%{_appdir}/admin
 install css/*.css $RPM_BUILD_ROOT%{_appdir}/css
 install images/* $RPM_BUILD_ROOT%{_appdir}/images
 install languages/* $RPM_BUILD_ROOT%{_appdir}/languages
+install model/* $RPM_BUILD_ROOT%{_appdir}/model
 install templates/* $RPM_BUILD_ROOT%{_appdir}/templates
 install users/* $RPM_BUILD_ROOT%{_appdir}/users
 install VIRTUAL_VACATION/vacation.pl $RPM_BUILD_ROOT/var/spool/vacation
@@ -142,9 +144,10 @@ fi
 %{_appdir}/*.php
 %{_appdir}/motd*
 %{_appdir}/admin
+%{_appdir}/css
 %{_appdir}/images
 %{_appdir}/languages
-%{_appdir}/css
+%{_appdir}/model
 %{_appdir}/templates
 %{_appdir}/users
 
