@@ -1,5 +1,5 @@
 # TODO
-# - webapps support: apache1, lighttpd
+# - webapps support: lighttpd
 # - find nice way to split it into 3 parts: user, admin and common
 # - package css and templates as config.
 # - put config part of vacation.pl into separate file (there is configuration part in that).
@@ -9,7 +9,7 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.3.5
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Networking/Mail
 Source0:	http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/%{name}-%{version}/%{name}-%{version}.tar.gz
@@ -28,6 +28,7 @@ Requires:	webserver(alias)
 Requires:	webserver(php)
 Suggests:	php(imap)
 Suggests:	webserver(indexfile)
+Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -126,10 +127,10 @@ if [ "$1" = "0" ]; then
 	%groupremove vacation
 fi
 
-%triggerin -- apache < 2.2.0, apache-base
+%triggerin -- apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache < 2.2.0, apache-base
+%triggerun -- apache-base
 %webapp_unregister httpd %{_webapp}
 
 %files
