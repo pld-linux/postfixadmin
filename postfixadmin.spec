@@ -9,7 +9,7 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.3.5
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Networking/Mail
 Source0:	http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/%{name}-%{version}/%{name}-%{version}.tar.gz
@@ -31,6 +31,8 @@ Suggests:	webserver(indexfile)
 Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_noautoreq_pear		../.* templates/.* common.php config.inc.php
 
 %define		_appdir		%{_datadir}/%{name}
 %define		_webapps	/etc/webapps
