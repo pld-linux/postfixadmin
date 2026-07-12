@@ -9,7 +9,7 @@ Summary:	Web Based Management tool created for Postfix
 Summary(pl.UTF-8):	Narzędzie WWW do zarządzania Postfiksem
 Name:		postfixadmin
 Version:	2.3.5
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		Networking/Mail
 Source0:	http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/%{name}-%{version}/%{name}-%{version}.tar.gz
@@ -77,6 +77,8 @@ Requires:	perl-MIME-EncWords
 Requires:	perl-Mail-Sendmail
 Suggests:	perl-DBD-Pg
 Suggests:	perl-DBD-mysql
+Provides:	group(vacation)
+Provides:	user(vacation)
 
 %description vacation
 Vacations script for Postfix.
